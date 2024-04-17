@@ -1,13 +1,21 @@
 import React, { useContext, useState, useEffect } from 'react';
 import authContext from '../useContext/authContext';
 import { Resend } from 'resend';
+import { useNavigate } from 'react-router-dom';
+
 
 const Content = () => {
+  let navigate = useNavigate();
   const resend = new  Resend('re_2KpVtFQV_yMwYDXGobaeYiAidUXyLMKnG');
   const { signedUp } = useContext(authContext);
   const [email, setEmail] = useState(null);
 
   useEffect(() => {
+    if (localStorage.getItem('token')) {
+    }
+    else {
+      navigate("/signin");
+    }
     const fetchData = async () => {
       try {
         let token = localStorage.getItem('token');
@@ -32,7 +40,7 @@ const Content = () => {
         alert("Invalid credentials or error occurred");
       }
     };
-    fetchData();
+    // fetchData();
   },);
 
 
