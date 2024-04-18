@@ -11,7 +11,7 @@ const Signin = () => {
 
     const handleOnSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch(`${process.env.BASE_URL}/api/auth/login`, {
+        const response = await fetch(`https://intern-pro-10.onrender.com/api/auth/login`, {
             method: 'POST',
             headers: {
                 'content-type': "application/json"

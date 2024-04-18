@@ -22,7 +22,7 @@ const Content = () => {
         let data = JSON.parse(token);
         let value = data.authtoken;
 
-        const response = await fetch(`${process.env.BASE_URL}/api/auth/getuser`, {
+        const response = await fetch(`https://intern-pro-10.onrender.com/api/auth/getuser`, {
           method: 'POST',
           headers: {
             'auth-token': value,

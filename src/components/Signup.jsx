@@ -11,7 +11,7 @@ const Signup = () => {
 
     const handleOnSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch(`${process.env.BASE_URL}/api/auth/createuser`, {
+        const response = await fetch(`https://intern-pro-10.onrender.com/api/auth/createuser`, {
             method: 'POST',
             headers: {
                 'content-type': "application/json"
