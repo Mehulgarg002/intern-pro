@@ -4,7 +4,9 @@
   "description": "",
   "main": " ",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js",
+    "build": "npm run build"
   },
   "author": "mehul",
   "license": "ISC",
