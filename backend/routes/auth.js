@@ -5,7 +5,6 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const fetchuser = require('../middleware/fetchUser');
 const router = express.Router()
-const JWT_SECRET = 'ASDASD&&'
 
 //Create a user using post :"/api/auth/createuser". no login authentication required
 router.post('/createuser', [
@@ -41,7 +40,7 @@ router.post('/createuser', [
         const data = {
             user: { id: user.id }
         }
-        const authtoken = jwt.sign(data, JWT_SECRET)
+        const authtoken = jwt.sign(data, process.env.JWT_SECRET)
         res.json({ authtoken })
 
     }
@@ -71,7 +70,7 @@ router.post('/login', [
         const data = {
             user: { id: user.id }
         }
-        const authtoken = jwt.sign(data, JWT_SECRET)
+        const authtoken = jwt.sign(data, process.env.JWT_SECRET)
         res.json({ authtoken })
 
     } catch (error) {
