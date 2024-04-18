@@ -58,7 +58,7 @@ const Profile = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/auth/updateprofile", {
+    const response = await fetch(`${process.env.BASE_URL}/api/auth/updateprofile`, {
       method: 'PUT',
       headers: {
         'content-type': "application/json",

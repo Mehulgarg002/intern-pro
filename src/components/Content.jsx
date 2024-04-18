@@ -22,7 +22,7 @@ const Content = () => {
         let data = JSON.parse(token);
         let value = data.authtoken;
 
-        const response = await fetch("https://ap-south-1.aws.data.mongodb-api.com/app/data-dvmvf/endpoint/data/v1/api/auth/getuser", {
+        const response = await fetch(`${process.env.BASE_URL}/api/auth/getuser`, {
           method: 'POST',
           headers: {
             'auth-token': value,
