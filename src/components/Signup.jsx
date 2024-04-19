@@ -17,9 +17,7 @@ const Signup = () => {
                 'content-type': "application/json"
             }, body: JSON.stringify({ name: cred.name, username: cred.username, email: cred.email, password: cred.password })
         });
-        // console.log(cred)
         const json = await response.json()
-        // console.log(json)
         if (json) {
             setSignedUp(true)
             localStorage.setItem('token', JSON.stringify(json))

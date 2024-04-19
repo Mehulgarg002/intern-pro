@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import authContext from '../useContext/authContext';
 
-
 const Signin = () => {
     let { setSignedIn } = useContext(authContext);
     let navigate = useNavigate();
@@ -18,8 +17,7 @@ const Signin = () => {
             }, body: JSON.stringify({ email: cred.email, password: cred.password })
         });
         const json = await response.json()
-        console.log(json)
-        if (json) {
+        if (!json.error) {
             setSignedIn(true)
             localStorage.setItem('token', JSON.stringify(json))
             navigate("/");
