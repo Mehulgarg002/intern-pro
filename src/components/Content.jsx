@@ -1,14 +1,13 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import authContext from '../useContext/authContext';
-import { Resend } from 'resend';
 import { useNavigate } from 'react-router-dom';
-
 
 const Content = () => {
   let navigate = useNavigate();
-  const resend = new  Resend('re_2KpVtFQV_yMwYDXGobaeYiAidUXyLMKnG');
   const { signedUp } = useContext(authContext);
-  const [email, setEmail] = useState(null);
+  let token = localStorage.getItem('token');
+  let data = JSON.parse(token);
+  let value = data.authtoken;
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -16,81 +15,55 @@ const Content = () => {
     else {
       navigate("/signin");
     }
-    const fetchData = async () => {
-      try {
-        let token = localStorage.getItem('token');
-        let data = JSON.parse(token);
-        let value = data.authtoken;
 
-        const response = await fetch(`https://intern-pro-10.onrender.com/api/auth/getuser`, {
-          method: 'POST',
-          headers: {
-            'auth-token': value,
-          }
-        });
+  },)
+  console.log(localStorage.getItem('token'))
 
-        const json = await response.json()
-        if (json) {
-          setEmail(json.email);
-        } else {
-          throw new Error("Failed to fetch user data");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        alert("Invalid credentials or error occurred");
-      }
-    };
-    // fetchData();
-  },);
-
-
-  const mail = async () => {
-    try {
-      const data = await resend.emails.send({
-        from: 'Acme <onboarding@resend.dev>',
-        to: [email],
-        subject: 'SignedUp',
-        html: '<strong>Thanks you for signing up</strong>'
-      });
-
-    } catch (error) {
-      console.error(error);
-    }
+  const handleOnSubmit = async () => {
+    const response = await fetch(`https://intern-pro-10.onrender.com/api/auth/sendmail`, {
+      method: 'POST',
+      headers: {
+        'auth-token': value
+      },
+    });
+    const json = await response.json()
+    console.log(json)
   }
-  const mail1 = async () => {
-    try {
-      const data = await resend.emails.send({
-        from: 'Acme <onboarding@resend.dev>',
-        to: [email],
-        subject: 'SignedIn',
-        html: '<strong>Thanks you for signing In</strong>'
-      });
-
-    } catch (error) {
-      console.error(error);
-    }
+  const handleOnSubmit1 = async () => {
+    const response = await fetch(`https://intern-pro-10.onrender.com/api/auth/sendmail`, {
+      method: 'POST',
+      headers: {
+        'auth-token': value
+      },
+    });
+    const json = await response.json()
+    console.log(json)
   }
 
   if (signedUp === true) {
-    mail()
+    handleOnSubmit()
   }
   else {
-    mail1()
+    handleOnSubmit1()
+
   }
+
 
   return (
     <>
       {signedUp === true ?
-        <div className=""  >
-          <h1>You are Signed up , Email has sent to your mail </h1>
+        <div className="flex justify-center text-xl h-[50vh]"  >
+          <h1 className='content-center'>You are Signed up , Email has sent to your mail </h1>
         </div>
         :
-        <div className=""  ><h1>You are logged in .</h1></div>}
+        <div className="flex justify-center text-xl h-[50vh]"  ><h1 className='content-center'>You are logged in .</h1></div>}
 
     </>
   )
 }
 
 export default Content;
+
+
 
 

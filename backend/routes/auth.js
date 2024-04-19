@@ -4,7 +4,10 @@ const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const fetchuser = require('../middleware/fetchUser');
+const { Resend } = require("resend");
 const router = express.Router()
+
+const resend = new Resend('re_73zPijmj_Dm5TLM5fNxCS6Y5G8LGSoBFh');
 
 //Create a user using post :"/api/auth/createuser". no login authentication required
 router.post('/createuser', [
@@ -111,6 +114,35 @@ router.put('/updateprofile', fetchuser, async (req, res) => {
         res.json({ message: 'Profile picture updated successfully', user });
     } catch (error) {
         console.error(error.message);
+        res.status(500).json({ error: 'Internal server error occurred' });
+    }
+});
+
+//upapdte a user pfp using put :"/api/auth/sendmail".  login authentication required
+
+router.post('/sendmail', fetchuser, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        const mail = user.email
+        const { data, error } = await resend.emails.send({
+            from: 'Acme <onboarding@resend.dev>',
+            to: [mail],
+            subject: 'thanks',
+            html: "thanks you for this !",
+        });
+
+        if (error) {
+            console.error({ error });
+            res.status(500).json({ error: 'Failed to send email' });
+        } else {
+            console.log({ data });
+            res.json({ message: 'Email sent successfully' });
+        }
+    } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Internal server error occurred' });
     }
 });
